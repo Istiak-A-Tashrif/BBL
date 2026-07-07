@@ -295,6 +295,7 @@ export function normalizeTemplateHtml(html: string, pageTitle?: string) {
     "/assets/img/breadcrumb/breadcrumb-bg-2.jpg": "/bbl/project-banner.jpg",
     "/assets/img/footer/footer-bg.png": "/bbl/sister-banner.jpg",
     "/assets/img/footer/footer-bg-2.jpg": "/bbl/sister-banner.jpg",
+    "/assets/img/solid-bg/solid-bg.jpg": "/bbl/sister-banner.jpg",
     "/assets/img/about/about-thumb.jpg": "/bbl/about-home.png",
     "/assets/img/about/about-thumb-2.jpg": "/bbl/block-about.png",
     "/assets/img/about/about-thumb-5.jpg": "/bbl/block-landing.png",

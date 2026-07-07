@@ -171,12 +171,14 @@
     });
 
     // circle text 
-    gsap.to(".circle-text", {
-        rotation: 360,
-        duration: 8,
-        repeat: -1,
-        ease: "linear"
-    });
+    if (document.querySelector(".circle-text")) {
+        gsap.to(".circle-text", {
+            rotation: 360,
+            duration: 8,
+            repeat: -1,
+            ease: "linear"
+        });
+    }
 
 
     // brand slider 
