@@ -224,8 +224,8 @@ export const homeHtml = `<!-- header,start  -->
                     </div>
                     <div class="col-xl-3 col-md-4">
                         <div class="tp-hero-video p-relative tp_fade_anim" data-fade-from="right" data-delay=".7" data-duration=".9">
-                            <video loop="" muted="" autoplay="" playsinline="">
-                                <source src="/videos/landor/hero-video.mp4" type="video/mp4">
+                            <video loop="" muted="" autoplay="" playsinline="" preload="metadata" poster="/bbl/hero.jpg">
+                                <source src="/videos/landor/hero-bg-video.mp4" type="video/mp4">
                             </video>
                         </div>
                     </div>

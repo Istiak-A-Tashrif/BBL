@@ -28,6 +28,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         {stylesheets.map((href) => (
           <link key={href} rel="stylesheet" href={href} />
         ))}

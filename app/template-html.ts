@@ -213,6 +213,34 @@ function simplifyProjectMediaTabs(html: string) {
   return simplified;
 }
 
+function addImageLoadingHints(html: string) {
+  let eagerLogoCount = 0;
+
+  return html.replace(/<img\b[^>]*>/gi, (tag) => {
+    const isLogo = /\/bbl\/logo-(blue|white)\.svg/i.test(tag);
+    const shouldLoadEagerly = isLogo && eagerLogoCount < 2;
+    let hinted = tag;
+
+    if (!/\bdecoding=/i.test(hinted)) {
+      hinted = hinted.replace("<img", '<img decoding="async"');
+    }
+
+    if (!/\bloading=/i.test(hinted)) {
+      hinted = hinted.replace("<img", shouldLoadEagerly ? '<img loading="eager"' : '<img loading="lazy"');
+    }
+
+    if (!/\bfetchpriority=/i.test(hinted)) {
+      hinted = hinted.replace("<img", shouldLoadEagerly ? '<img fetchpriority="high"' : '<img fetchpriority="low"');
+    }
+
+    if (isLogo) {
+      eagerLogoCount += 1;
+    }
+
+    return hinted;
+  });
+}
+
 function removeSectionContaining(html: string, sectionClass: string, marker: string) {
   let normalized = html;
   let searchFrom = 0;
@@ -431,7 +459,9 @@ export function normalizeTemplateHtml(html: string, pageTitle?: string) {
     .replace(/<div class="tp-contect-map-wrap mr-80">/g, '<div class="tp-contect-map-wrap">')
     .replace(/<div class="col-lg-6">\s*<div class="tp-contect-box tp-contect-box-inner mt-10">\s*<div class="tp-contect-box-content mb-25">[\s\S]*?<\/div>\s*<\/div>\s*<\/div>/g, "")
     .replace(/Email us <a href="mailto:info@bblbd\.com">at info@bblbd\.com<\/a> <br> or submit <a href="\/contact-us">a contact<\/a> form\./g, 'Email us <a href="mailto:info@bblbd.com">at info@bblbd.com</a> <br> or call <a href="tel:+8801678086168">+88 01678 086168</a>.')
-    .replace(/href="tel:\+88 01678 086168"/g, 'href="tel:+8801678086168"')
+    .replace(/href="tel:\+88 01678 086168"/g, 'href="tel:+8801678086168"');
+
+  normalized = addImageLoadingHints(normalized);
 
   return normalized.trim();
 }
