@@ -49,7 +49,7 @@ const contentReplacements: Array<[RegExp, string]> = [
   [/Residents can rely on our 24\/7 support desk for information and assistance at\s*<br>\s*any time\./gi, "With about 300 regular employees and more than 500 daily workers, BBL is equipped for complex real estate and construction work."],
   [/Defining the standards of\s*<br>\s*real estate<span>development<\/span>/gi, "We believe in quality <br> not quantity<span>since 1994</span>"],
   [/We create landmark real estate\s*<br>\s*projects that bring enduring\s*<br>\s*value to<span>both investors<\/span>/gi, "We build residential, commercial, <br> and infrastructure projects <br> with<span>quality and accountability</span>"],
-  [/We strive to create\s*opportunities that elevate\s*the<b class="tp-text-orange fw-500 ml-10">way<\/b><span class="tp-text-orange fw-500">people live<\/span>/gi, 'We strive to deliver safe, lasting spaces with <b class="tp-text-orange fw-500 ml-10">quality</b><span class="tp-text-orange fw-500">construction</span>'],
+  [/We strive to create\s*opportunities that elevate\s*the<b class="tp-text-orange fw-500 ml-10">way<\/b><span class="tp-text-orange fw-500">people live<\/span>/gi, 'We strive to deliver safe,<br> lasting spaces with <b class="tp-text-orange fw-500 ml-10">quality</b><span class="tp-text-orange fw-500">construction</span>'],
   [/Take a brief look at some\s*of the services\s*<span>we offer<\/span>/gi, "Explore BBL's <span>core capabilities</span>"],
   [/Let’s shape something remarkable !/gi, "Build with a trusted name since 1994."],
   [/If you have any question\? Feel free\s*can contact with team\./gi, "Have a question? Contact the BBL team."],
@@ -88,7 +88,7 @@ const contentReplacements: Array<[RegExp, string]> = [
   [/(<button class="nav-link"[^>]*>)New York(<\/button>)/gi, "$1Corporate Office$2"],
   [/(<button class="nav-link active"[^>]*>)London(<\/button>)/gi, "$1Banani Office$2"],
   [/(<button class="nav-link"[^>]*>)Australia(<\/button>)/gi, "$1Project Inquiry$2"],
-  [/Monday - Friday 10 a\.m\. - 6 p\.m\./gi, "Corporate Office: +88 02 9665907, 9664542, 9671320"],
+  [/Monday - Friday 10 a\.m\. - 6 p\.m\./gi, "Corporate Office: +88 01678 086168"],
   [/OFFICE EMAIL/g, "info@bblbd.com"],
   [/David Hussy/g, "Nazrul Islam"],
   [/Justin Case/g, "BBL Management"],
@@ -123,9 +123,9 @@ const contentReplacements: Array<[RegExp, string]> = [
   [/FAQs/g, "Questions"],
   [/info@biswasbuilders\.com/g, "info@bblbd.com"],
   [/www\.biswasbuilders\.com/g, "www.bblbd.com"],
-  [/16760/g, "+88 02 9665907"],
-  [/\+\(1\) 224 676 7430/g, "+88 02 9665907"],
-  [/tel:\+\(1\)2246767430/g, "tel:+88029665907"],
+  [/16760/g, "+88 01678 086168"],
+  [/\+\(1\) 224 676 7430/g, "+88 01678 086168"],
+  [/tel:\+\(1\)2246767430/g, "tel:+8801678086168"],
   [/Biswas Builders Limited@/g, "info@bblbd.com"],
   [/Let’s contact with us/g, "Contact Biswas Builders Limited"],
   [/We love to here/g, "We would love to hear"],
@@ -386,7 +386,7 @@ export function normalizeTemplateHtml(html: string, pageTitle?: string) {
     "home-tab-pane",
     "profile-tab-pane",
     "New Market City Complex, <br> 44/1 Rahim Square, New Market, Dhaka-1205",
-    "Corporate Office: +88 02 9665907, 9664542, 9671320",
+    "Corporate Office: +88 01678 086168",
   );
   normalized = replaceContactPane(
     normalized,
@@ -400,7 +400,7 @@ export function normalizeTemplateHtml(html: string, pageTitle?: string) {
     "contact-tab-pane",
     null,
     "New Market City Complex, <br> 44/1 Rahim Square, New Market, Dhaka-1205",
-    "Project Inquiry: +88 02 9665907, 9664542, 9671320",
+    "Project Inquiry: +88 01678 086168",
   );
   normalized = simplifyProjectMediaTabs(normalized);
 
@@ -430,10 +430,8 @@ export function normalizeTemplateHtml(html: string, pageTitle?: string) {
     .replace(/<div class="tp-contect-map-main">\s*<div class="row">\s*<div class="col-lg-6">/g, '<div class="tp-contect-map-main"><div class="row"><div class="col-lg-12">')
     .replace(/<div class="tp-contect-map-wrap mr-80">/g, '<div class="tp-contect-map-wrap">')
     .replace(/<div class="col-lg-6">\s*<div class="tp-contect-box tp-contect-box-inner mt-10">\s*<div class="tp-contect-box-content mb-25">[\s\S]*?<\/div>\s*<\/div>\s*<\/div>/g, "")
-    .replace(/Email us <a href="mailto:info@bblbd\.com">at info@bblbd\.com<\/a> <br> or submit <a href="\/contact-us">a contact<\/a> form\./g, 'Email us <a href="mailto:info@bblbd.com">at info@bblbd.com</a> <br> or call <a href="tel:+88029665907">+88 02 9665907</a>.')
-    .replace(/href="tel:\+88 02 9665907"/g, 'href="tel:+88029665907"')
-    .replace(/href="tel:\+88 02 9664542"/g, 'href="tel:+88029664542"')
-    .replace(/href="tel:\+88 02 9671320"/g, 'href="tel:+88029671320"');
+    .replace(/Email us <a href="mailto:info@bblbd\.com">at info@bblbd\.com<\/a> <br> or submit <a href="\/contact-us">a contact<\/a> form\./g, 'Email us <a href="mailto:info@bblbd.com">at info@bblbd.com</a> <br> or call <a href="tel:+8801678086168">+88 01678 086168</a>.')
+    .replace(/href="tel:\+88 01678 086168"/g, 'href="tel:+8801678086168"')
 
   return normalized.trim();
 }
