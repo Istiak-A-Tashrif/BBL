@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Biswas Builders Limited",
@@ -11,15 +12,6 @@ export const metadata: Metadata = {
   },
 };
 
-const stylesheets = [
-  "/assets/css/bootstrap.min.css",
-  "/assets/css/magnific-popup.css",
-  "/assets/css/swiper-bundle.min.css",
-  "/assets/css/font-awesome-pro.css",
-  "/assets/css/spacing.css",
-  "/assets/css/main.css",
-];
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -30,11 +22,8 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        {stylesheets.map((href) => (
-          <link key={href} rel="stylesheet" href={href} />
-        ))}
       </head>
-      <body className="tp-magic-cursor">{children}</body>
+      <body>{children}</body>
     </html>
   );
 }

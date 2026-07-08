@@ -75,7 +75,7 @@ const contentReplacements: Array<[RegExp, string]> = [
   [/Urban nest pro/gi, "Saiham Future Complex"],
   [/Hospitality/g, "Residential"],
   [/Marketing/g, "Construction"],
-  [/Sales and marketin/g, "Sales and customer care"],
+  [/Sales and marketing/gi, "Sales and customer care"],
   [/Sales & Marketing/g, "Sales and customer care"],
   [/Architecture and design/g, "Planning and design"],
   [/Construction management/g, "Construction quality"],

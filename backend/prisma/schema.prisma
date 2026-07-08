@@ -1,0 +1,23 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model CmsPage {
+  id           Int       @id @default(autoincrement())
+  slug         String    @unique
+  title        String
+  status       String    @default("draft")
+  content      Json      @default("{}")
+  metadata     Json?
+  published_at DateTime?
+  created_at   DateTime  @default(now())
+  updated_at   DateTime  @updatedAt
+
+  @@index([status])
+  @@map("cms_pages")
+}

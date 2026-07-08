@@ -1,3 +1,12 @@
+export const templateStylesheets = [
+  "/assets/css/bootstrap.min.css",
+  "/assets/css/magnific-popup.css",
+  "/assets/css/swiper-bundle.min.css",
+  "/assets/css/font-awesome-pro.css",
+  "/assets/css/spacing.css",
+  "/assets/css/main.css",
+];
+
 export const templateScripts = [
   "/assets/js/jquery-3.7.1.min.js",
   "/assets/js/vandor/waypoints.js",
