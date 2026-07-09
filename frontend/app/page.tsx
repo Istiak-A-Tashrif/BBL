@@ -1,5 +1,6 @@
-import { HomeModern } from "./HomeModern";
-import { mergeHomeContent, type HomeContent } from "./home-cms";
+import { HomeModern } from "./(home)/HomeModern";
+import { mergeHomeContent, type HomeContent } from "./(home)/home-cms";
+import { cmsFetchOptions } from "./cms-cache";
 
 function resolveUploadedAssets(value: unknown, assetBaseUrl: string): unknown {
   if (typeof value === "string") {
@@ -25,9 +26,7 @@ async function getHomeContent(): Promise<Partial<HomeContent> | undefined> {
     process.env.CMS_ASSET_BASE_URL || apiBaseUrl.replace(/\/api\/v1\/?$/, "");
 
   try {
-    const response = await fetch(`${apiBaseUrl}/cms/pages/home`, {
-      cache: "no-store",
-    });
+    const response = await fetch(`${apiBaseUrl}/cms/pages/home`, cmsFetchOptions("home"));
 
     if (!response.ok) {
       return undefined;

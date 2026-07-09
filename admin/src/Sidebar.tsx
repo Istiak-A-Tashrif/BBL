@@ -27,9 +27,29 @@ const SideBar: React.FC = () => {
       label: <span title="Dashboard">Dashboard</span>,
     },
     {
+      key: "/cms/site",
+      icon: <HomeOutlined />,
+      label: <span title="Site CMS">Site CMS</span>,
+    },
+    {
       key: "/cms/home",
       icon: <HomeOutlined />,
       label: <span title="Home CMS">Home CMS</span>,
+    },
+    {
+      key: "/cms/about",
+      icon: <HomeOutlined />,
+      label: <span title="About CMS">About CMS</span>,
+    },
+    {
+      key: "/cms/projects",
+      icon: <HomeOutlined />,
+      label: <span title="Projects CMS">Projects CMS</span>,
+    },
+    {
+      key: "/cms/contact",
+      icon: <HomeOutlined />,
+      label: <span title="Contact CMS">Contact CMS</span>,
     },
   ];
 

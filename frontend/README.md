@@ -1,6 +1,6 @@
-# BBL Landor Next.js
+# BBL Frontend
 
-This project converts the Landor `Home 01` static HTML page into a Next.js App Router project.
+This project contains the Biswas Builders Limited frontend built with Next.js, React, Tailwind CSS, and GSAP.
 
 ## Run locally
 
@@ -17,5 +17,3 @@ Open <http://localhost:3000>.
 npm run build
 npm run start
 ```
-
-The original template assets are served from `public/assets`, and the local videos are served from `public/videos`.

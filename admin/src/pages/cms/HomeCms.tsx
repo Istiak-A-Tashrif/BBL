@@ -5,6 +5,7 @@ import type { UploadProps } from "antd";
 import { useEffect } from "react";
 import axiosInstance from "../../api/axiosInstance";
 import { endpoints } from "../../api/endpoints";
+import { revalidateCms } from "../../api/nextCache";
 import PageTitle from "../../components/PageTitle";
 import { useMessageStore } from "../../stores/messageStore";
 import { setPageTitle } from "../../utils/setPageTitle";
@@ -89,15 +90,6 @@ function ImageField({ name, label }: { name: (string | number)[]; label: string 
 const textRules = [{ required: true, message: "Required" }];
 
 const defaultHomeContent = {
-  site: {
-    name: "Biswas Builders Limited",
-    logoDark: "/bbl/logo-blue.svg",
-    phone: "+88 01678 086168",
-    navHomeLabel: "Home",
-    navAboutLabel: "About",
-    navProjectsLabel: "Projects",
-    navContactLabel: "Contact",
-  },
   hero: {
     eyebrow: "Biswas Builders Limited",
     title: "We believe in quality not quantity",
@@ -250,14 +242,6 @@ const defaultHomeContent = {
       image: "/bbl/gallery-3.jpg",
     },
   ],
-  footer: {
-    eyebrow: "Contact",
-    title: "Let's work together",
-    description:
-      "Biswas Builders Limited is a Bangladeshi real estate and construction company established in 1994.",
-    buttonText: "Contact BBL",
-    background: "/bbl/sister-banner.jpg",
-  },
   sections: {
     services: {
       eyebrow: "Services",
@@ -352,6 +336,7 @@ export default function HomeCms() {
       return axiosInstance.post(endpoints.cmsPages, payload);
     },
     onSuccess: async () => {
+      await revalidateCms("home");
       messageApi?.success("Home page saved");
       await refetch();
     },
@@ -381,24 +366,6 @@ export default function HomeCms() {
       >
         <Tabs
           items={[
-            {
-              key: "site",
-              label: "Site",
-              forceRender: true,
-              children: (
-                <Card>
-                  <Row gutter={16}>
-                    <Col md={12} xs={24}><Form.Item name={["site", "name"]} label="Site Name" rules={textRules}><Input /></Form.Item></Col>
-                    <Col md={12} xs={24}><Form.Item name={["site", "phone"]} label="Phone" rules={textRules}><Input /></Form.Item></Col>
-                    <Col md={6} xs={12}><Form.Item name={["site", "navHomeLabel"]} label="Home Nav Label" rules={textRules}><Input /></Form.Item></Col>
-                    <Col md={6} xs={12}><Form.Item name={["site", "navAboutLabel"]} label="About Nav Label" rules={textRules}><Input /></Form.Item></Col>
-                    <Col md={6} xs={12}><Form.Item name={["site", "navProjectsLabel"]} label="Projects Nav Label" rules={textRules}><Input /></Form.Item></Col>
-                    <Col md={6} xs={12}><Form.Item name={["site", "navContactLabel"]} label="Contact Nav Label" rules={textRules}><Input /></Form.Item></Col>
-                    <Col md={12} xs={24}><ImageField name={["site", "logoDark"]} label="Logo" /></Col>
-                  </Row>
-                </Card>
-              ),
-            },
             {
               key: "hero",
               label: "Hero",
@@ -726,20 +693,6 @@ export default function HomeCms() {
                     )}
                   </Form.List>
                 </>
-              ),
-            },
-            {
-              key: "footer",
-              label: "Footer",
-              forceRender: true,
-              children: (
-                <Card>
-                  <Form.Item name={["footer", "eyebrow"]} label="Eyebrow" rules={textRules}><Input /></Form.Item>
-                  <Form.Item name={["footer", "title"]} label="Title" rules={textRules}><Input /></Form.Item>
-                  <Form.Item name={["footer", "description"]} label="Description" rules={textRules}><Input.TextArea rows={3} /></Form.Item>
-                  <Form.Item name={["footer", "buttonText"]} label="Button Text" rules={textRules}><Input /></Form.Item>
-                  <ImageField name={["footer", "background"]} label="Footer Background" />
-                </Card>
               ),
             },
           ]}

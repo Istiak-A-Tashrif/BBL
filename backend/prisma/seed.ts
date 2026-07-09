@@ -1,8 +1,10 @@
 import { PrismaClient } from '@prisma/client';
+import { defaultContactContent } from '../../frontend/app/contact-us/contact-cms';
+import { defaultProjectsPageContent } from '../../frontend/app/projects/projects-page-cms';
 
 const prisma = new PrismaClient();
 
-const homeContent = {
+const siteContent = {
   site: {
     name: 'Biswas Builders Limited',
     logoDark: '/bbl/logo-blue.svg',
@@ -12,6 +14,17 @@ const homeContent = {
     navProjectsLabel: 'Projects',
     navContactLabel: 'Contact',
   },
+  footer: {
+    eyebrow: 'Contact',
+    title: "Let's work together",
+    description:
+      'Biswas Builders Limited is a Bangladeshi real estate and construction company established in 1994.',
+    buttonText: 'Contact BBL',
+    background: '/bbl/sister-banner.jpg',
+  },
+};
+
+const homeContent = {
   hero: {
     eyebrow: 'Biswas Builders Limited',
     title: 'We believe in quality not quantity',
@@ -190,14 +203,6 @@ const homeContent = {
       image: '/bbl/gallery-3.jpg',
     },
   ],
-  footer: {
-    eyebrow: 'Contact',
-    title: "Let's work together",
-    description:
-      'Biswas Builders Limited is a Bangladeshi real estate and construction company established in 1994.',
-    buttonText: 'Contact BBL',
-    background: '/bbl/sister-banner.jpg',
-  },
   sections: {
     services: {
       eyebrow: 'Services',
@@ -228,7 +233,102 @@ const homeContent = {
   },
 };
 
+const aboutContent = {
+  hero: {
+    eyebrow: 'About BBL',
+    title: 'A developer shaped by discipline, delivery, and trust',
+    description:
+      'Biswas Builders Limited works across real estate, construction, land development, and customer care with a practical focus on lasting value.',
+    image: '/bbl/block-about.png',
+  },
+  stats: [
+    { value: '1994', label: 'Established' },
+    { value: '800+', label: 'Team and workers' },
+    { value: '4+', label: 'Highlighted projects' },
+  ],
+  intro: {
+    eyebrow: 'Company Profile',
+    title: 'From apartment construction to multi-sector real estate delivery',
+    description:
+      'BBL began its journey with apartment construction and gradually expanded into residential buildings, commercial spaces, civil engineering works, and landowner partnerships. The company coordinates planning, construction, sales, documentation, and after-sales support under one accountable delivery process.',
+    quote: 'A company profile built on delivery, not decoration.',
+  },
+  features: [
+    {
+      title: 'Development management',
+      description:
+        'BBL manages project planning, approvals, construction coordination, sales communication, and handover documentation.',
+    },
+    {
+      title: 'Landowner partnership',
+      description:
+        'The company works with landowners through transparent development arrangements focused on utility, value, and long-term trust.',
+    },
+    {
+      title: 'Customer care',
+      description:
+        'Buyer support continues from first inquiry through booking, documentation, construction updates, handover, and after-sales service.',
+    },
+  ],
+  journey: {
+    eyebrow: 'Our Journey',
+    title: 'A steady path from apartment construction to landmark delivery',
+    description:
+      "The company's growth has stayed close to the same core promise: practical planning, reliable construction, and responsive service after handover.",
+    items: [
+      {
+        year: '1994',
+        title: 'Started with a clear promise',
+        description:
+          'BBL began with apartment construction and a practical belief in accountable delivery.',
+      },
+      {
+        year: '2000s',
+        title: 'Expanded project capability',
+        description:
+          'The company grew across residential, commercial, and civil construction work.',
+      },
+      {
+        year: 'Today',
+        title: 'Focused on lasting value',
+        description:
+          'BBL now serves buyers, landowners, and partners through planning, execution, and customer care.',
+      },
+    ],
+  },
+  values: {
+    eyebrow: 'Operating Principles',
+    title: 'The standards behind every BBL project',
+    description:
+      'The company runs on clear communication, documented decisions, professional coordination, and a long-term view of the spaces it creates.',
+    images: ['/bbl/project-1.jpg', '/bbl/gallery-1.jpg', '/bbl/project-3.jpg', '/bbl/value.jpg'],
+  },
+};
+
 async function main() {
+  await prisma.cmsPage.upsert({
+    where: { slug: 'site-settings' },
+    update: {
+      title: 'Site Settings',
+      status: 'published',
+      published_at: new Date(),
+      content: siteContent,
+      metadata: {
+        description: 'Shared website navigation and footer',
+      },
+    },
+    create: {
+      slug: 'site-settings',
+      title: 'Site Settings',
+      status: 'published',
+      published_at: new Date(),
+      content: siteContent,
+      metadata: {
+        description: 'Shared website navigation and footer',
+      },
+    },
+  });
+
   await prisma.cmsPage.upsert({
     where: { slug: 'home' },
     update: {
@@ -252,26 +352,41 @@ async function main() {
     },
   });
 
-  const pages = [
-    {
+  await prisma.cmsPage.upsert({
+    where: { slug: 'about-us' },
+    update: {
+      title: 'About Us',
+      status: 'published',
+      published_at: new Date(),
+      content: aboutContent,
+      metadata: {
+        description: 'About Biswas Builders Limited',
+      },
+    },
+    create: {
       slug: 'about-us',
       title: 'About Us',
-      description: 'About Biswas Builders Limited',
+      status: 'published',
+      published_at: new Date(),
+      content: aboutContent,
+      metadata: {
+        description: 'About Biswas Builders Limited',
+      },
     },
+  });
+
+  const pages = [
     {
       slug: 'projects',
       title: 'Projects',
       description: 'Biswas Builders Limited projects',
-    },
-    {
-      slug: 'projects/biswas-tower',
-      title: 'Biswas Tower',
-      description: 'Biswas Tower project details',
+      content: defaultProjectsPageContent,
     },
     {
       slug: 'contact-us',
       title: 'Contact Us',
       description: 'Contact Biswas Builders Limited',
+      content: defaultContactContent,
     },
   ];
 
@@ -282,9 +397,7 @@ async function main() {
         title: page.title,
         status: 'published',
         published_at: new Date(),
-        content: {
-          pageTitle: page.title,
-        },
+        content: page.content || { pageTitle: page.title },
         metadata: {
           description: page.description,
         },
@@ -294,9 +407,7 @@ async function main() {
         title: page.title,
         status: 'published',
         published_at: new Date(),
-        content: {
-          pageTitle: page.title,
-        },
+        content: page.content || { pageTitle: page.title },
         metadata: {
           description: page.description,
         },
