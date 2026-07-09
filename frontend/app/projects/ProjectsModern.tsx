@@ -1,6 +1,7 @@
 "use client";
 
 import gsap from "gsap";
+import Image from "next/image";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useEffect, useRef } from "react";
 import type { ProjectsPageContent } from "./projects-page-cms";
@@ -36,7 +37,7 @@ export function ProjectsModern({ content }: { content: ProjectsPageContent }) {
   return (
     <main ref={rootRef} className="min-h-screen bg-[#f5f3ee] font-sans text-[#171717]">
       <section className="relative grid min-h-[72vh] items-end overflow-hidden bg-[#171717] text-white">
-        <img className="absolute inset-0 h-[112%] w-full object-cover opacity-70" src={content.hero.image} alt="" data-parallax />
+        <Image className="absolute inset-0 h-[112%] w-full object-cover opacity-70" src={content.hero.image} alt="" width={1920} height={1080} sizes="100vw" priority data-parallax />
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/35 to-black/20" />
         <div className="relative z-[1] grid max-w-[1080px] gap-7 px-[clamp(18px,4vw,64px)] py-[clamp(72px,12vw,132px)]">
           <p className={eyebrow} data-hero>{content.hero.eyebrow}</p>
@@ -61,7 +62,7 @@ export function ProjectsModern({ content }: { content: ProjectsPageContent }) {
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
           {content.projects.map((project) => (
             <article className="group relative min-h-[520px] overflow-hidden rounded-lg text-white" data-reveal key={project.title}>
-              <img className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105" src={project.image} alt={project.title} />
+              <Image className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105" src={project.image} alt={project.title} width={1200} height={900} sizes="(min-width: 1024px) 50vw, 100vw" />
               <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/10 to-black/80" />
               <div className="absolute inset-x-0 bottom-0 z-[1] p-7">
                 <div className="mb-5 flex flex-wrap gap-2 text-xs font-extrabold uppercase tracking-[0.14em] text-white/70">

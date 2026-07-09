@@ -1,6 +1,7 @@
 "use client";
 
 import gsap from "gsap";
+import Image from "next/image";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useEffect, useRef } from "react";
 import type { ContactContent } from "./contact-cms";
@@ -51,7 +52,7 @@ export function ContactModern({ content }: { content: ContactContent }) {
           <p className="m-0 max-w-[720px] text-[clamp(18px,2vw,24px)] leading-[1.55] text-white/72" data-hero>{content.hero.description}</p>
         </div>
         <div className="relative min-h-[420px] overflow-hidden">
-          <img className="absolute inset-0 h-[112%] w-full object-cover" src={content.hero.image} alt="" data-parallax />
+          <Image className="absolute inset-0 h-[112%] w-full object-cover" src={content.hero.image} alt="" width={1200} height={900} sizes="(min-width: 1024px) 50vw, 100vw" priority data-parallax />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
         </div>
       </section>

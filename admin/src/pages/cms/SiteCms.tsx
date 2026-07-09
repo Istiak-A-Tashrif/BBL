@@ -28,7 +28,7 @@ const assetUrl = (path?: string) => {
   return `${frontendOrigin}${path}`;
 };
 
-function ImageField({ name, label }: { name: (string | number)[]; label: string }) {
+function ImageField({ name, label, sizeCm = "Recommended size: 30 x 20 cm" }: { name: (string | number)[]; label: string; sizeCm?: string }) {
   const form = Form.useFormInstance();
   const value = Form.useWatch(name, form);
 
@@ -49,7 +49,7 @@ function ImageField({ name, label }: { name: (string | number)[]; label: string 
   };
 
   return (
-    <Form.Item label={label}>
+    <Form.Item label={label} extra={sizeCm}>
       <Form.Item name={name} noStyle>
         <Input type="hidden" />
       </Form.Item>
@@ -171,7 +171,7 @@ export default function SiteCms() {
                     <Col md={6} xs={12}><Form.Item name={["site", "navAboutLabel"]} label="About Nav Label" rules={textRules}><Input /></Form.Item></Col>
                     <Col md={6} xs={12}><Form.Item name={["site", "navProjectsLabel"]} label="Projects Nav Label" rules={textRules}><Input /></Form.Item></Col>
                     <Col md={6} xs={12}><Form.Item name={["site", "navContactLabel"]} label="Contact Nav Label" rules={textRules}><Input /></Form.Item></Col>
-                    <Col md={12} xs={24}><ImageField name={["site", "logoDark"]} label="Logo" /></Col>
+                    <Col md={12} xs={24}><ImageField name={["site", "logoDark"]} label="Logo" sizeCm="Recommended size: 6 x 1.5 cm" /></Col>
                   </Row>
                 </Card>
               ),
@@ -186,7 +186,7 @@ export default function SiteCms() {
                   <Form.Item name={["footer", "title"]} label="Title" rules={textRules}><Input /></Form.Item>
                   <Form.Item name={["footer", "description"]} label="Description" rules={textRules}><Input.TextArea rows={3} /></Form.Item>
                   <Form.Item name={["footer", "buttonText"]} label="Button Text" rules={textRules}><Input /></Form.Item>
-                  <ImageField name={["footer", "background"]} label="Footer Background" />
+                  <ImageField name={["footer", "background"]} label="Footer Background" sizeCm="Recommended size: 51 x 29 cm" />
                 </Card>
               ),
             },

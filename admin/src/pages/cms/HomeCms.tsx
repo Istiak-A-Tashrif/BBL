@@ -33,7 +33,7 @@ const assetUrl = (path?: string) => {
   return `${frontendOrigin}${path}`;
 };
 
-function ImageField({ name, label }: { name: (string | number)[]; label: string }) {
+function ImageField({ name, label, sizeCm = "Recommended size: 30 x 20 cm" }: { name: (string | number)[]; label: string; sizeCm?: string }) {
   const form = Form.useFormInstance();
   const value = Form.useWatch(name, form);
 
@@ -60,7 +60,7 @@ function ImageField({ name, label }: { name: (string | number)[]; label: string 
   };
 
   return (
-    <Form.Item label={label}>
+    <Form.Item label={label} extra={sizeCm}>
       <Form.Item name={name} noStyle>
         <Input type="hidden" />
       </Form.Item>
@@ -378,7 +378,7 @@ export default function HomeCms() {
                     <Col md={12} xs={24}><Form.Item name={["hero", "title"]} label="Title" rules={textRules}><Input.TextArea rows={2} /></Form.Item></Col>
                     <Col md={12} xs={24}><Form.Item name={["hero", "highlight"]} label="Subtitle" rules={textRules}><Input /></Form.Item></Col>
                     <Col md={12} xs={24}><Form.Item name={["hero", "secondaryButtonText"]} label="Secondary Button Text" rules={textRules}><Input /></Form.Item></Col>
-                    <Col xs={24}><ImageField name={["hero", "image"]} label="Hero Image / Video Poster" /></Col>
+                    <Col xs={24}><ImageField name={["hero", "image"]} label="Hero Image / Video Poster" sizeCm="Recommended size: 51 x 29 cm" /></Col>
                   </Row>
                 </Card>
               ),
@@ -432,7 +432,7 @@ export default function HomeCms() {
                     <Col xs={24}><Form.Item name={["about", "title"]} label="Title" rules={textRules}><Input.TextArea rows={2} /></Form.Item></Col>
                     <Col xs={24}><Form.Item name={["about", "description"]} label="Description" rules={textRules}><Input.TextArea rows={5} /></Form.Item></Col>
                     <Col xs={24}><Form.Item name={["about", "quote"]} label="Quote" rules={textRules}><Input /></Form.Item></Col>
-                    <Col xs={24}><ImageField name={["about", "image"]} label="About Image" /></Col>
+                    <Col xs={24}><ImageField name={["about", "image"]} label="About Image" sizeCm="Recommended size: 24 x 29 cm" /></Col>
                   </Row>
                 </Card>
               ),
@@ -463,7 +463,7 @@ export default function HomeCms() {
                               >
                                 <Form.Item name={[field.name, "title"]} label="Title" rules={textRules}><Input /></Form.Item>
                                 <Form.Item name={[field.name, "description"]} label="Description" rules={textRules}><Input.TextArea rows={4} /></Form.Item>
-                                <ImageField name={["services", field.name, "image"]} label="Image" />
+                                <ImageField name={["services", field.name, "image"]} label="Image" sizeCm="Recommended size: 30 x 19 cm" />
                               </Card>
                             </Col>
                           ))}
@@ -504,7 +504,7 @@ export default function HomeCms() {
                                 <Form.Item name={[field.name, "title"]} label="Title" rules={textRules}><Input /></Form.Item>
                                 <Form.Item name={[field.name, "location"]} label="Location" rules={textRules}><Input /></Form.Item>
                                 <Form.Item name={[field.name, "year"]} label="Year" rules={textRules}><Input /></Form.Item>
-                                <ImageField name={["projects", field.name, "image"]} label="Image" />
+                                <ImageField name={["projects", field.name, "image"]} label="Image" sizeCm="Recommended size: 24 x 29 cm" />
                               </Card>
                             </Col>
                           ))}
@@ -529,11 +529,28 @@ export default function HomeCms() {
                     <Col md={12} xs={24}><Form.Item name={["mission", "title"]} label="Title" rules={textRules}><Input.TextArea rows={2} /></Form.Item></Col>
                     <Col md={6} xs={12}><Form.Item name={["mission", "highlightPrefix"]} label="Highlight Prefix" rules={textRules}><Input /></Form.Item></Col>
                     <Col md={6} xs={12}><Form.Item name={["mission", "highlight"]} label="Highlight" rules={textRules}><Input /></Form.Item></Col>
-                    {[0, 1, 2, 3].map((index) => (
-                      <Col md={8} xs={24} key={index}>
-                        <ImageField name={["mission", "images", index]} label={`Mission Image ${index + 1}`} />
-                      </Col>
-                    ))}
+                    <Col xs={24}>
+                      <Form.List name={["mission", "images"]}>
+                        {(fields, { add, remove }) => (
+                          <>
+                            <Row gutter={16}>
+                              {fields.map((field, index) => (
+                                <Col md={8} xs={24} key={field.key}>
+                                  <Card
+                                    className="mb-4"
+                                    title={`Mission Image ${index + 1}`}
+                                    extra={<Button danger size="small" icon={<DeleteOutlined />} onClick={() => remove(field.name)} />}
+                                  >
+                                    <ImageField name={["mission", "images", field.name]} label="Image" sizeCm="Recommended size: 19 x 14 cm" />
+                                  </Card>
+                                </Col>
+                              ))}
+                            </Row>
+                            <Button icon={<PlusOutlined />} onClick={() => add("")}>Add Mission Image</Button>
+                          </>
+                        )}
+                      </Form.List>
+                    </Col>
                   </Row>
                 </Card>
               ),
@@ -562,7 +579,7 @@ export default function HomeCms() {
                               >
                                 <Form.Item name={[field.name, "quote"]} label="Quote" rules={textRules}><Input.TextArea rows={5} /></Form.Item>
                                 <Form.Item name={[field.name, "author"]} label="Author" rules={textRules}><Input /></Form.Item>
-                                <ImageField name={["testimonials", field.name, "image"]} label="Image" />
+                                <ImageField name={["testimonials", field.name, "image"]} label="Image" sizeCm="Recommended size: 5 x 5 cm" />
                               </Card>
                             </Col>
                           ))}
@@ -636,7 +653,7 @@ export default function HomeCms() {
                               >
                                 <Form.Item name={[field.name, "name"]} label="Name" rules={textRules}><Input /></Form.Item>
                                 <Form.Item name={[field.name, "role"]} label="Role" rules={textRules}><Input /></Form.Item>
-                                <ImageField name={["team", field.name, "image"]} label="Image" />
+                                <ImageField name={["team", field.name, "image"]} label="Image" sizeCm="Recommended size: 19 x 24 cm" />
                               </Card>
                             </Col>
                           ))}
@@ -678,7 +695,7 @@ export default function HomeCms() {
                                 <Form.Item name={[field.name, "title"]} label="Title" rules={textRules}><Input.TextArea rows={2} /></Form.Item>
                                 <Form.Item name={[field.name, "author"]} label="Author" rules={textRules}><Input /></Form.Item>
                                 <Form.Item name={[field.name, "role"]} label="Role" rules={textRules}><Input /></Form.Item>
-                                <ImageField name={["updates", field.name, "image"]} label="Image" />
+                                <ImageField name={["updates", field.name, "image"]} label="Image" sizeCm="Recommended size: 30 x 17 cm" />
                               </Card>
                             </Col>
                           ))}

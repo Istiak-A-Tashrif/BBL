@@ -16,7 +16,7 @@ const apiOrigin = String(import.meta.env.VITE_API_BASE_URL || "").replace(/\/api
 const frontendOrigin = String(import.meta.env.VITE_FRONTEND_BASE_URL || "http://localhost:3000").replace(/\/+$/, "");
 const assetUrl = (path?: string) => !path ? "" : /^https?:\/\//.test(path) ? path : path.startsWith("/uploads/") ? `${apiOrigin}${path}` : `${frontendOrigin}${path}`;
 
-function ImageField({ name, label }: { name: (string | number)[]; label: string }) {
+function ImageField({ name, label, sizeCm = "Recommended size: 30 x 20 cm" }: { name: (string | number)[]; label: string; sizeCm?: string }) {
   const form = Form.useFormInstance();
   const value = Form.useWatch(name, form);
   const uploadProps: UploadProps = {
@@ -35,7 +35,7 @@ function ImageField({ name, label }: { name: (string | number)[]; label: string 
     },
   };
   return (
-    <Form.Item label={label}>
+    <Form.Item label={label} extra={sizeCm}>
       <Form.Item name={name} noStyle><Input type="hidden" /></Form.Item>
       <Upload.Dragger {...uploadProps} accept="image/*">
         {value ? <div className="flex flex-col items-center gap-2"><img src={assetUrl(value)} alt={label} className="max-h-36 max-w-full rounded border object-cover" /><span className="text-xs text-gray-500">Click or drop to replace</span></div> : <><p className="ant-upload-drag-icon"><InboxOutlined /></p><p className="ant-upload-text">Click or drop image here</p></>}
@@ -91,7 +91,7 @@ export default function ContactCms() {
       {setPageTitle("Contact CMS")}<PageTitle title="Contact CMS" breadcrumbs={[]} />
       <Form form={form} layout="vertical" initialValues={defaultContent} onFinish={(values) => saveMutation.mutate(values)}>
         <Tabs items={[
-          { key: "hero", label: "Hero", forceRender: true, children: <Card><Row gutter={16}><Col md={12} xs={24}><Form.Item name={["hero", "eyebrow"]} label="Eyebrow" rules={textRules}><Input /></Form.Item></Col><Col md={12} xs={24}><Form.Item name={["hero", "title"]} label="Title" rules={textRules}><Input.TextArea rows={2} /></Form.Item></Col><Col xs={24}><Form.Item name={["hero", "description"]} label="Description" rules={textRules}><Input.TextArea rows={3} /></Form.Item></Col><Col xs={24}><ImageField name={["hero", "image"]} label="Hero Image" /></Col></Row></Card> },
+          { key: "hero", label: "Hero", forceRender: true, children: <Card><Row gutter={16}><Col md={12} xs={24}><Form.Item name={["hero", "eyebrow"]} label="Eyebrow" rules={textRules}><Input /></Form.Item></Col><Col md={12} xs={24}><Form.Item name={["hero", "title"]} label="Title" rules={textRules}><Input.TextArea rows={2} /></Form.Item></Col><Col xs={24}><Form.Item name={["hero", "description"]} label="Description" rules={textRules}><Input.TextArea rows={3} /></Form.Item></Col><Col xs={24}><ImageField name={["hero", "image"]} label="Hero Image" sizeCm="Recommended size: 32 x 24 cm" /></Col></Row></Card> },
           { key: "cards", label: "Contact Cards", forceRender: true, children: <Form.List name="cards">{(fields, { add, remove }) => <><Row gutter={16}>{fields.map((field, index) => <Col md={8} xs={24} key={field.key}><Card title={`Card ${index + 1}`} extra={<Button danger size="small" icon={<DeleteOutlined />} onClick={() => remove(field.name)} />}><Form.Item name={[field.name, "title"]} label="Title" rules={textRules}><Input /></Form.Item><Form.Item name={[field.name, "value"]} label="Value" rules={textRules}><Input /></Form.Item><Form.Item name={[field.name, "description"]} label="Description" rules={textRules}><Input.TextArea rows={3} /></Form.Item></Card></Col>)}</Row><Button icon={<PlusOutlined />} onClick={() => add({ title: "", value: "", description: "" })}>Add Card</Button></>}</Form.List> },
           { key: "form", label: "Form Copy", forceRender: true, children: <Card><Form.Item name={["form", "eyebrow"]} label="Eyebrow" rules={textRules}><Input /></Form.Item><Form.Item name={["form", "title"]} label="Title" rules={textRules}><Input.TextArea rows={2} /></Form.Item><Form.Item name={["form", "description"]} label="Description" rules={textRules}><Input.TextArea rows={3} /></Form.Item><Form.Item name={["form", "submitText"]} label="Submit Text" rules={textRules}><Input /></Form.Item></Card> },
           { key: "visit", label: "Visit", forceRender: true, children: <Card><Form.Item name={["visit", "eyebrow"]} label="Eyebrow" rules={textRules}><Input /></Form.Item><Form.Item name={["visit", "title"]} label="Title" rules={textRules}><Input /></Form.Item><Form.Item name={["visit", "address"]} label="Address" rules={textRules}><Input.TextArea rows={3} /></Form.Item><Form.Item name={["visit", "mapUrl"]} label="Google Maps Link or Embed URL" rules={textRules} extra="Embed URLs are used directly in the iframe. Regular Google Maps links keep the CMS value saved, and the iframe uses the address above."><Input /></Form.Item></Card> },

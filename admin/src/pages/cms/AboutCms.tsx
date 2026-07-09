@@ -30,7 +30,7 @@ const assetUrl = (path?: string) => {
   return `${frontendOrigin}${path}`;
 };
 
-function ImageField({ name, label }: { name: (string | number)[]; label: string }) {
+function ImageField({ name, label, sizeCm = "Recommended size: 30 x 20 cm" }: { name: (string | number)[]; label: string; sizeCm?: string }) {
   const form = Form.useFormInstance();
   const value = Form.useWatch(name, form);
 
@@ -51,7 +51,7 @@ function ImageField({ name, label }: { name: (string | number)[]; label: string 
   };
 
   return (
-    <Form.Item label={label}>
+    <Form.Item label={label} extra={sizeCm}>
       <Form.Item name={name} noStyle>
         <Input type="hidden" />
       </Form.Item>
@@ -208,7 +208,7 @@ export default function AboutCms() {
                     <Col md={12} xs={24}><Form.Item name={["hero", "eyebrow"]} label="Eyebrow" rules={textRules}><Input /></Form.Item></Col>
                     <Col md={12} xs={24}><Form.Item name={["hero", "title"]} label="Title" rules={textRules}><Input.TextArea rows={2} /></Form.Item></Col>
                     <Col xs={24}><Form.Item name={["hero", "description"]} label="Description" rules={textRules}><Input.TextArea rows={3} /></Form.Item></Col>
-                    <Col xs={24}><ImageField name={["hero", "image"]} label="Hero Image" /></Col>
+                    <Col xs={24}><ImageField name={["hero", "image"]} label="Hero Image" sizeCm="Recommended size: 32 x 24 cm" /></Col>
                   </Row>
                 </Card>
               ),
@@ -315,11 +315,26 @@ export default function AboutCms() {
                   <Form.Item name={["values", "eyebrow"]} label="Eyebrow" rules={textRules}><Input /></Form.Item>
                   <Form.Item name={["values", "title"]} label="Title" rules={textRules}><Input.TextArea rows={2} /></Form.Item>
                   <Form.Item name={["values", "description"]} label="Description" rules={textRules}><Input.TextArea rows={4} /></Form.Item>
-                  <Row gutter={16}>
-                    {[0, 1, 2, 3].map((index) => (
-                      <Col md={6} xs={24} key={index}><ImageField name={["values", "images", index]} label={`Image ${index + 1}`} /></Col>
-                    ))}
-                  </Row>
+                  <Form.List name={["values", "images"]}>
+                    {(fields, { add, remove }) => (
+                      <>
+                        <Row gutter={16}>
+                          {fields.map((field, index) => (
+                            <Col md={6} xs={24} key={field.key}>
+                              <Card
+                                className="mb-4"
+                                title={`Image ${index + 1}`}
+                                extra={<Button danger size="small" icon={<DeleteOutlined />} onClick={() => remove(field.name)} />}
+                              >
+                                <ImageField name={["values", "images", field.name]} label="Image" sizeCm="Recommended size: 19 x 14 cm" />
+                              </Card>
+                            </Col>
+                          ))}
+                        </Row>
+                        <Button icon={<PlusOutlined />} onClick={() => add("")}>Add Value Image</Button>
+                      </>
+                    )}
+                  </Form.List>
                 </Card>
               ),
             },

@@ -1,6 +1,7 @@
 "use client";
 
 import gsap from "gsap";
+import Image from "next/image";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useEffect, useRef } from "react";
 import type { AboutContent } from "./about-cms";
@@ -77,7 +78,7 @@ export function AboutModern({ content }: { content: AboutContent }) {
           </p>
         </div>
         <div className="relative min-h-[440px] overflow-hidden lg:min-h-full">
-          <img className="absolute inset-0 h-[112%] w-full object-cover" src={content.hero.image} alt="" data-parallax />
+          <Image className="absolute inset-0 h-[112%] w-full object-cover" src={content.hero.image} alt="" width={1200} height={900} sizes="(min-width: 1024px) 52vw, 100vw" priority data-parallax />
           <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
         </div>
       </section>
@@ -154,8 +155,17 @@ export function AboutModern({ content }: { content: AboutContent }) {
       <section className={cn(section, "bg-[#171717] text-white")} data-reveal-root>
         <div className="grid grid-cols-1 items-stretch gap-[18px] lg:grid-cols-[1.1fr_0.9fr]">
           <div className="grid grid-cols-1 gap-[18px] sm:grid-cols-2">
-            {content.values.images.slice(0, 4).map((image, index) => (
-              <img className="min-h-[240px] h-full w-full rounded-lg object-cover" src={image} alt={`BBL work ${index + 1}`} data-reveal key={image} />
+            {content.values.images.map((image, index) => (
+              <Image
+                className="min-h-[240px] h-full w-full rounded-lg object-cover"
+                src={image}
+                alt={`BBL work ${index + 1}`}
+                width={720}
+                height={520}
+                sizes="(min-width: 1024px) 28vw, (min-width: 640px) 50vw, 100vw"
+                data-reveal
+                key={`${image}-${index}`}
+              />
             ))}
           </div>
           <div className="flex min-h-[360px] flex-col justify-end rounded-lg bg-[#21443b] p-9 text-white lg:min-h-[520px]" data-reveal>

@@ -2,13 +2,10 @@
 
 import gsap from "gsap";
 import Link from "next/link";
+import Image from "next/image";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useEffect, useRef } from "react";
 import type { HomeContent } from "./home-cms";
-
-function chunk<T>(items: T[], count: number) {
-  return items.slice(0, count);
-}
 
 function cn(...classes: Array<string | false | undefined>) {
   return classes.filter(Boolean).join(" ");
@@ -80,7 +77,7 @@ export function HomeModern({ content }: { content: HomeContent }) {
   return (
     <main ref={rootRef} className="min-h-screen bg-[#f5f3ee] font-sans text-[#171717]">
       <section className="relative grid min-h-[calc(100vh-79px)] grid-cols-1 items-end overflow-hidden">
-        <img className="absolute inset-0 h-full w-full object-cover" src={content.hero.image} alt="" data-parallax />
+        <Image className="absolute inset-0 h-full w-full object-cover" src={content.hero.image} alt="" width={1920} height={1080} sizes="100vw" priority data-parallax />
         <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/25 to-black/10" />
         <div className="relative z-[1] grid max-w-[1120px] gap-7 px-[clamp(18px,4vw,64px)] py-[clamp(72px,12vw,140px)] text-white">
           <p className={eyebrow} data-hero>
@@ -145,7 +142,7 @@ export function HomeModern({ content }: { content: HomeContent }) {
             </blockquote>
           </div>
           <div className="min-h-[360px] flex-1 overflow-hidden rounded-lg lg:min-h-[520px]" data-reveal>
-            <img className="h-full w-full object-cover" src={content.about.image} alt="BBL building and construction work" />
+            <Image className="h-full w-full object-cover" src={content.about.image} alt="BBL building and construction work" width={900} height={1100} sizes="(min-width: 1024px) 50vw, 100vw" />
           </div>
         </div>
       </section>
@@ -161,7 +158,7 @@ export function HomeModern({ content }: { content: HomeContent }) {
         <div className={revealGrid}>
           {content.services.map((service) => (
             <article className={cn(card, "overflow-hidden")} data-reveal key={service.title}>
-              <img className="aspect-[16/10] w-full object-cover" src={service.image} alt={service.title} />
+              <Image className="aspect-[16/10] w-full object-cover" src={service.image} alt={service.title} width={900} height={560} sizes="(min-width: 1024px) 33vw, 100vw" />
               <div className="p-6">
                 <h3 className={cardTitle}>{service.title}</h3>
                 <p className={cardText}>{service.description}</p>
@@ -189,7 +186,7 @@ export function HomeModern({ content }: { content: HomeContent }) {
               data-reveal
               key={project.title}
             >
-              <img className="absolute inset-0 h-full w-full object-cover" src={project.image} alt={project.title} />
+              <Image className="absolute inset-0 h-full w-full object-cover" src={project.image} alt={project.title} width={900} height={1100} sizes="(min-width: 1024px) 25vw, 100vw" />
               <div className="absolute inset-x-0 bottom-0 z-[1] p-6">
                 <h3 className="mb-2 mt-0 text-2xl font-bold">{project.title}</h3>
                 <div className="flex justify-between gap-4 text-white/75">
@@ -214,11 +211,14 @@ export function HomeModern({ content }: { content: HomeContent }) {
             </h2>
           </div>
           <div className="grid grid-cols-1 gap-[18px] sm:grid-cols-2">
-            {chunk(content.mission.images, 4).map((image, index) => (
-              <img
+            {content.mission.images.map((image, index) => (
+              <Image
                 className="min-h-[250px] h-full w-full rounded-lg object-cover"
                 src={image}
                 alt={`BBL mission ${index + 1}`}
+                width={720}
+                height={520}
+                sizes="(min-width: 1024px) 29vw, (min-width: 640px) 50vw, 100vw"
                 data-reveal
                 key={`${image}-${index}`}
               />
@@ -235,7 +235,7 @@ export function HomeModern({ content }: { content: HomeContent }) {
         <div className={revealGrid}>
           {content.testimonials.map((testimonial) => (
             <article className={cn(card, "p-7")} data-reveal key={testimonial.author}>
-              <img className="mb-6 h-[72px] w-[72px] rounded-full object-cover" src={testimonial.image} alt={testimonial.author} />
+              <Image className="mb-6 h-[72px] w-[72px] rounded-full object-cover" src={testimonial.image} alt={testimonial.author} width={72} height={72} />
               <h3 className={cardTitle}>{testimonial.author}</h3>
               <p className={cardText}>{testimonial.quote}</p>
             </article>
@@ -268,7 +268,7 @@ export function HomeModern({ content }: { content: HomeContent }) {
         <div className={revealGrid}>
           {content.team.map((member) => (
             <article className={cn(card, "overflow-hidden")} data-reveal key={`${member.name}-${member.role}`}>
-              <img className="aspect-[4/5] w-full object-cover" src={member.image} alt={member.name} />
+              <Image className="aspect-[4/5] w-full object-cover" src={member.image} alt={member.name} width={720} height={900} sizes="(min-width: 1024px) 33vw, 100vw" />
               <div className="p-6">
                 <h3 className={cardTitle}>{member.name}</h3>
                 <p className={cardText}>{member.role}</p>
@@ -286,7 +286,7 @@ export function HomeModern({ content }: { content: HomeContent }) {
         <div className={revealGrid}>
           {content.updates.map((update) => (
             <article className={cn(card, "overflow-hidden")} data-reveal key={update.title}>
-              <img className="aspect-video w-full object-cover" src={update.image} alt={update.title} />
+              <Image className="aspect-video w-full object-cover" src={update.image} alt={update.title} width={900} height={506} sizes="(min-width: 1024px) 33vw, 100vw" />
               <div className="p-6">
                 <p className={eyebrow}>
                   {update.category} / {update.date}
